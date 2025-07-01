@@ -14,7 +14,7 @@ export async function POST(request:NextRequest){
   if(user){
     return NextResponse.json({error:"User already exists"},{status:400})
   }
-const salt= await bcrypt.genSaltSync(10);
+const salt= await bcrypt.genSalt(10);
 const hashedPassword=await bcrypt.hash(password,salt)
  const newUser=new User({
     username,
@@ -25,7 +25,7 @@ const savedUser=await newUser.save()
 console.log(savedUser)
 
 //send verification email 
-await sendEmail({email,emailType:'VERIFY',userID:savedUser._id})
+await sendEmail({email,emailType:'VERIFY',userId:savedUser._id})
 return NextResponse.json({
   message:"User created successfully",
 success:true,
