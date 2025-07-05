@@ -10,7 +10,7 @@ export async function POST(request:NextRequest){
         //take data from user
         const reqBody= await request.json()
         const{email,password}=reqBody //extract email and password
-        console.log(reqBody);
+        // console.log(reqBody);
         const user=await User.findOne({email})
         if(!user){
                     return NextResponse.json({error:"user doesnot exist"},{status:400})
