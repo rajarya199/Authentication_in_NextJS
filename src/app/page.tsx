@@ -1,8 +1,9 @@
+import Accordian from "@/components/Accordian";
 
 export default function Home() {
   return (
-    <div>
-      hhhhhhh
+    <div className="bg-gray-900">
+      <Accordian/>
     </div>
   );
 }
