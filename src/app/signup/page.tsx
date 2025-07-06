@@ -35,42 +35,75 @@ router.push("/login")
         }
     },[user])
   return (
-    <div className='flex flex-col items-center justify-center min-h-screen py-2 bg-gray-800'>
-        <h1>{isLoading ?"Processing":"Signup"}</h1>
-        <hr />
-        <label htmlFor="username">Username</label>
-        <input
-        className='p-2 border bg-amber-50 border-gray-300 rounded-lg mb-4 focus:outline-none focus:border-gray-600 text-black'
-        id="username"
-        value={user.username}
-        onChange={(e)=>setUser({...user,username:e.target.value})} 
-        type="text"
-        placeholder='user name' />
-         <label htmlFor="email">email</label>
-        <input
-        className='p-2 bg-amber-50 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:border-gray-600 text-black'
-        id="email"
-        value={user.email}
-        onChange={(e)=>setUser({...user,email:e.target.value})} 
-        type="text"
-        placeholder='email' />
-           <label htmlFor="password">Password</label>
-        <input
-        className='p-2 bg-amber-50 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:border-gray-600 text-black'
-        id="password"
-        value={user.password}
-        onChange={(e)=>setUser({...user,password:e.target.value})} 
-        type="password"
-        placeholder='password' />
-        <button
-        onClick={onsignup}
-        className='p-2 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:border-gray-600'>
-            {buttonDisabled ?"No signUp":"Signup"}
-        </button>
-        <Link href='/login'>
-        Visit login page
-        </Link>
+   <div className="flex flex-col items-center justify-center min-h-screen bg-gray-800 px-4 py-12">
+      <div className="bg-white rounded-lg shadow-lg max-w-md w-full p-8">
+        <h1 className="text-3xl font-bold text-gray-900 mb-6 text-center">
+          {isLoading ? "Processing..." : "Signup"}
+        </h1>
+        <hr className="mb-6 border-gray-300" />
+
+        <div className="mb-5">
+          <label htmlFor="username" className="block mb-2 font-medium text-gray-700">
+            Username
+          </label>
+          <input
+            id="username"
+            type="text"
+            placeholder="User name"
+            value={user.username}
+            onChange={(e) => setUser({ ...user, username: e.target.value })}
+            className="w-full p-3 border border-gray-300 rounded-lg bg-amber-50 text-black placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-amber-400 transition"
+          />
         </div>
+
+        <div className="mb-5">
+          <label htmlFor="email" className="block mb-2 font-medium text-gray-700">
+            Email
+          </label>
+          <input
+            id="email"
+            type="email"
+            placeholder="Email"
+            value={user.email}
+            onChange={(e) => setUser({ ...user, email: e.target.value })}
+            className="w-full p-3 border border-gray-300 rounded-lg bg-amber-50 text-black placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-amber-400 transition"
+          />
+        </div>
+
+        <div className="mb-6">
+          <label htmlFor="password" className="block mb-2 font-medium text-gray-700">
+            Password
+          </label>
+          <input
+            id="password"
+            type="password"
+            placeholder="Password"
+            value={user.password}
+            onChange={(e) => setUser({ ...user, password: e.target.value })}
+            className="w-full p-3 border border-gray-300 rounded-lg bg-amber-50 text-black placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-amber-400 transition"
+          />
+        </div>
+
+        <button
+          onClick={onsignup}
+          disabled={buttonDisabled}
+          className={`w-full py-3 rounded-lg font-semibold text-white transition ${
+            buttonDisabled
+              ? "bg-gray-400 cursor-not-allowed"
+              : "bg-amber-500 hover:bg-amber-600 focus:ring-4 focus:ring-amber-300"
+          }`}
+        >
+          {buttonDisabled ? "No signUp" : "Signup"}
+        </button>
+
+        <p className="mt-6 text-center text-gray-600">
+          Already have an account?{" "}
+          <Link href="/login" className="text-amber-500 hover:text-amber-600 font-medium transition">
+            Visit login page
+          </Link>
+        </p>
+      </div>
+    </div>
   )
 }
 
