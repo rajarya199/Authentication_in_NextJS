@@ -1,14 +1,31 @@
 "use client"
 import React,{useState} from 'react'
+import axios from 'axios'
+import toast from 'react-hot-toast'
+
 import { menuItem } from '@/constants'
 import { MenuIcon, XIcon } from 'lucide-react'
-
 import Link from 'next/link';
+import { useRouter } from 'next/navigation'
+
 const Navbar = () => {
+    const router = useRouter()
+
    const [isMenuOpen, setIsMenuOpen] = useState(false)
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen)
   }
+       const logout=async()=>{
+        try{
+            await axios.get('/api/users/logout')
+            toast.success("Logout successful")
+            router.push("/login")
+        }
+        catch(error:any){
+            console.error("Error during logout:", error)
+            toast.error(error.message)
+        }
+    }
   return (
     <>
         <nav className=" shadow-sm sticky top-0 z-50 bg-black    border-b border-gray-500">
@@ -40,9 +57,12 @@ const Navbar = () => {
   </Link>
   <Link href="/signup">
     <button className="text-black px-4 py-2 rounded-md bg-white hover:bg-gray-200 transition">
-      Sign Up
+      SignUp
     </button>
   </Link>
+  <button onClick={logout} className="w-full text-white px-4 py-2 rounded-md border border-white hover:bg-white hover:text-black transition">
+          Logout
+        </button>
           </div>
               <div className="md:hidden flex items-center">
               <button
@@ -61,11 +81,46 @@ const Navbar = () => {
 
           </div>
 
+
+
+</div>
+</div>
+
                 {/* Mobile menu */}
 
+{isMenuOpen && (
+  <div className="md:hidden bg-black border-t border-gray-700 ">
+    <div className="px-2 pt-2 pb-3 space-y-1">
+      {menuItem.map((item, index) => (
+        <Link
+          href={item.path}
+          key={index}
+          className="block text-slate-200 hover:bg-purple-700 hover:text-white px-3 py-2 rounded-md text-base font-medium transition"
+          onClick={() => setIsMenuOpen(false)}
+        >
+          {item.label}
+        </Link>
+      ))}
+       <div className="flex flex-col space-y-2 px-3 pb-4 border-t border-gray-700">
+      <Link href="/login" onClick={() => setIsMenuOpen(false)}>
+        <button className="w-full text-white px-4 py-2 rounded-md border border-white hover:bg-white hover:text-black transition">
+          Login
+        </button>
+      </Link>
+        <button onClick={logout} className="w-full text-white px-4 py-2 rounded-md border border-white hover:bg-white hover:text-black transition">
+          Logout
+        </button>
+      <Link href="/signup" onClick={() => setIsMenuOpen(false)}>
+        <button className="w-full text-black px-4 py-2 rounded-md bg-white hover:bg-gray-200 transition">
+          Sign Up
+        </button>
+      </Link>
+    </div>
+    </div>
+   
+  </div>
+)}
 
-</div>
-</div>
 </nav>
     </>
   )
