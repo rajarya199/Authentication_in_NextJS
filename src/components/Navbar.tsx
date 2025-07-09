@@ -7,9 +7,11 @@ import { menuItem } from '@/constants'
 import { MenuIcon, XIcon } from 'lucide-react'
 import Link from 'next/link';
 import { useRouter } from 'next/navigation'
+import { useUser } from "@/context/UserContext";
 
 const Navbar = () => {
     const router = useRouter()
+  const { user, setUser } = useUser();
 
    const [isMenuOpen, setIsMenuOpen] = useState(false)
   const toggleMenu = () => {
@@ -20,6 +22,7 @@ const Navbar = () => {
             await axios.get('/api/users/logout')
             toast.success("Logout successful")
             router.push("/login")
+            setUser(null)
         }
         catch(error:any){
             console.error("Error during logout:", error)
@@ -50,19 +53,28 @@ const Navbar = () => {
 
                     <div className="flex items-center space-x-4">
             <div className="hidden md:flex items-center space-x-2">
-   <Link href="/login">
-    <button className="text-white px-4 py-2 rounded-md border border-white hover:bg-white hover:text-black transition">
-      Login
-    </button>
-  </Link>
-  <Link href="/signup">
-    <button className="text-black px-4 py-2 rounded-md bg-white hover:bg-gray-200 transition">
-      SignUp
-    </button>
-  </Link>
-  <button onClick={logout} className="w-full text-white px-4 py-2 rounded-md border border-white hover:bg-white hover:text-black transition">
+  {!user ? (
+        <>
+          <Link href="/login">
+            <button className="text-white px-4 py-2 rounded-md border border-white hover:bg-white hover:text-black transition">
+              Login
+            </button>
+          </Link>
+          <Link href="/signup">
+            <button className="text-black px-4 py-2 rounded-md bg-white hover:bg-gray-200 transition">
+              SignUp
+            </button>
+          </Link>
+        </>
+      ) : (
+        <button
+          onClick={logout}
+          className="w-full text-white px-4 py-2 rounded-md border border-white hover:bg-white hover:text-black transition"
+        >
           Logout
         </button>
+      )}
+
           </div>
               <div className="md:hidden flex items-center">
               <button
@@ -102,19 +114,24 @@ const Navbar = () => {
         </Link>
       ))}
        <div className="flex flex-col space-y-2 px-3 pb-4 border-t border-gray-700">
+    
+    {!user ?(<>
       <Link href="/login" onClick={() => setIsMenuOpen(false)}>
         <button className="w-full text-white px-4 py-2 rounded-md border border-white hover:bg-white hover:text-black transition">
           Login
         </button>
       </Link>
-        <button onClick={logout} className="w-full text-white px-4 py-2 rounded-md border border-white hover:bg-white hover:text-black transition">
-          Logout
-        </button>
+       
       <Link href="/signup" onClick={() => setIsMenuOpen(false)}>
         <button className="w-full text-black px-4 py-2 rounded-md bg-white hover:bg-gray-200 transition">
           Sign Up
         </button>
       </Link>
+    </>):(<button onClick={logout} className="w-full text-white px-4 py-2 rounded-md border border-white hover:bg-white hover:text-black transition">
+          Logout
+        </button>)}
+    
+       
     </div>
     </div>
    
