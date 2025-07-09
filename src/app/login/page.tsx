@@ -4,8 +4,10 @@ import toast from 'react-hot-toast';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import axios from 'axios'
+import { useUser } from "@/context/UserContext";
 const SigninPage = () => {
     const router=useRouter()
+      const { fetchUser } = useUser()
     const[isLoading,setIsLoading]=useState(false)
     const[buttonDisabled,setButtonDisabled]=useState(false)
     const[user,setUser]=useState({
@@ -18,6 +20,7 @@ const SigninPage = () => {
          const response=await axios.post("/api/users/login",user)
 toast.success("login successfully")
 router.push("/profile")
+await fetchUser(); // ✅ update context with fresh user data
          console.log("signin sucessful",response.data)
         }
         catch(error:any){
