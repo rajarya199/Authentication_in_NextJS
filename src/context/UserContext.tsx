@@ -26,6 +26,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
       const res = await axios.post("/api/users/about");
       setUser(res.data.data);
     } catch (err) {
+      console.error("failed to fetch user data",err)
       setUser(null); // clear user if error (unauthenticated)
     }
   };
