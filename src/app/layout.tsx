@@ -3,6 +3,9 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
 import Navbar from "@/components/Navbar";
+import { UserProvider } from "@/context/UserContext";
+import { User } from "lucide-react";
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -29,8 +32,11 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Toaster position="top-right"/>
-        <Navbar/>
+        <UserProvider>
+  <Navbar/>
         {children}
+        </UserProvider>
+      
       </body>
     </html>
   );
